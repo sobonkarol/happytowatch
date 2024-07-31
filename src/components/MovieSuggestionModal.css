@@ -1,0 +1,53 @@
+.custom-modal .modal-content {
+    background-color: #222;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.custom-modal-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    color: #ffcc00;
+    margin-right: 10px;
+}
+
+.modal-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.custom-modal-overview {
+    font-family: 'Poppins', sans-serif;
+    color: #bbb;
+    font-size: 16px;
+}
+
+.custom-modal-poster {
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+.custom-modal-providers-title {
+    font-family: 'Poppins', sans-serif;
+    color: #ffcc00;
+    margin-top: 20px;
+}
+
+.custom-modal-providers {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.custom-modal-provider-icon {
+    font-size: 30px;
+}
+
+.refresh-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
