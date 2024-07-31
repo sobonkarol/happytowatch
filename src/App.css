@@ -91,3 +91,44 @@ body {
   padding: 20px;
   border-radius: 10px;
 }
+
+.mood-button, .platform-button {
+  flex: 1 1 calc(25% - 1em);
+  margin: 0.5em;
+}
+
+@media (max-width: 768px) {
+  .mood-button, .platform-button {
+    flex: 1 1 calc(50% - 1em);
+  }
+
+  .m-2 {
+    margin: 0.5em;
+  }
+
+  .custom-modal-title {
+    font-size: 1.5rem;
+  }
+
+  .custom-modal-overview {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mood-button, .platform-button {
+    flex: 1 1 100%;
+  }
+
+  .m-2 {
+    margin: 0.25em;
+  }
+
+  .custom-modal-title {
+    font-size: 1.25rem;
+  }
+
+  .custom-modal-overview {
+    font-size: 0.875rem;
+  }
+}

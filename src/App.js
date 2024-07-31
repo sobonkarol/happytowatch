@@ -39,6 +39,7 @@ const App = () => {
   const [suggestedMovie, setSuggestedMovie] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loading, movies, fetchMovies } = useFetchMovies();
+  const [seenMovies, setSeenMovies] = useState([]); // Dodano stan do śledzenia wyświetlonych filmów
 
   const moods = [
     { id: "happy", emoji: <FaRegSmile />, label: "Szczęśliwy" },
@@ -107,19 +108,28 @@ const App = () => {
     } else if (selectedPlatforms.length < 1) {
       toast.warning("Wybierz proszę przynajmniej jedną platformę streamingową.");
     } else {
+      setSeenMovies([]); // Resetuj widziane filmy przy nowym wyszukiwaniu
       fetchMovies(mapMoodsToGenres(selectedMoods), includeAnimation, selectedPlatforms);
     }
-  };  
+  };
 
   useEffect(() => {
     if (movies.length) {
-      setSuggestedMovie(movies[Math.floor(Math.random() * movies.length)]);
-      setIsModalOpen(true);
+      handleNextSuggestion(); // Wywołaj nową sugestię filmu przy zakończeniu wyszukiwania
     }
   }, [movies]);
 
   const handleNextSuggestion = () => {
-    setSuggestedMovie(movies[Math.floor(Math.random() * movies.length)]);
+    const unseenMovies = movies.filter(movie => !seenMovies.includes(movie.id));
+
+    if (unseenMovies.length === 0) {
+      toast.info("Brak nowych sugestii filmów.");
+      return;
+    }
+
+    const randomMovie = unseenMovies[Math.floor(Math.random() * unseenMovies.length)];
+    setSuggestedMovie(randomMovie);
+    setSeenMovies([...seenMovies, randomMovie.id]);
   };
 
   return (
@@ -132,116 +142,116 @@ const App = () => {
             <div className="mood-selection d-flex flex-wrap justify-content-center">
               {moods.map((mood) => (
                 <motion.div
-                key={mood.id}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className={`mood-button ${
-                  selectedMoods.includes(mood.id) ? "selected" : ""
-                }`}
-                onClick={() => handleMoodChange(mood)}
-              >
-                <Button
-                  className={`m-2 ${
-                    selectedMoods.includes(mood.id)
-                      ? "selected-button"
-                      : "btn-outline-light"
+                  key={mood.id}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`mood-button ${
+                    selectedMoods.includes(mood.id) ? "selected" : ""
                   }`}
-                  style={{
-                    width: "140px",
-                    height: "140px",
-                    fontSize: "14px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "10px",
-                  }}
+                  onClick={() => handleMoodChange(mood)}
                 >
-                  <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
-                  <span style={{ fontSize: "14px", textAlign: "center" }}>
-                    {mood.label}
-                  </span>
-                </Button>
-              </motion.div>
-            ))}
-          </div>
-        </Col>
-      </Row>
-      <Row className="mb-4">
-        <Col>
-          <h3 className="text-center">Wybierz platformy streamingowe</h3>
-          <div className="platform-selection d-flex flex-wrap justify-content-center">
-            {platforms.map((platform) => (
-              <motion.div
-                key={platform.id}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className={`platform-button ${
-                  selectedPlatforms.includes(platform.id) ? "selected" : ""
-                }`}
-                onClick={() => handlePlatformChange(platform)}
-              >
-                <Button
-                  className={`m-2 ${
-                    selectedPlatforms.includes(platform.id)
-                      ? "selected-button"
-                      : "btn-outline-light"
+                  <Button
+                    className={`m-2 ${
+                      selectedMoods.includes(mood.id)
+                        ? "selected-button"
+                        : "btn-outline-light"
+                    }`}
+                    style={{
+                      width: "140px",
+                      height: "140px",
+                      fontSize: "14px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "10px",
+                    }}
+                  >
+                    <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
+                    <span style={{ fontSize: "14px", textAlign: "center" }}>
+                      {mood.label}
+                    </span>
+                  </Button>
+                </motion.div>
+              ))}
+            </div>
+          </Col>
+        </Row>
+        <Row className="mb-4">
+          <Col>
+            <h3 className="text-center">Wybierz platformy streamingowe</h3>
+            <div className="platform-selection d-flex flex-wrap justify-content-center">
+              {platforms.map((platform) => (
+                <motion.div
+                  key={platform.id}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`platform-button ${
+                    selectedPlatforms.includes(platform.id) ? "selected" : ""
                   }`}
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    fontSize: "18px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "10px",
-                    borderRadius: "8px",
-                  }}
+                  onClick={() => handlePlatformChange(platform)}
                 >
-                  <span style={{ fontSize: "30px" }}>{platform.icon}</span>
-                  <span style={{ fontSize: "16px", textAlign: "center" }}>
-                    {platform.label}
-                  </span>
-                </Button>
-              </motion.div>
-            ))}
-          </div>
-        </Col>
-      </Row>
-      <Row className="mb-4">
-        <Col className="text-center">
-          <Form.Check
-            type="checkbox"
-            label="Wyszukaj też filmy animowane"
-            onChange={handleIncludeAnimationChange}
-            checked={includeAnimation}
-          />
-        </Col>
-      </Row>
-      <Row className="text-center">
-        <Col>
-          <Button variant="success" onClick={handleSubmit} disabled={loading}>
-            Wyszukaj
-          </Button>
-        </Col>
-      </Row>
-    </Container>
-    {isModalOpen && suggestedMovie && (
-  <MovieSuggestionModal
-    movie={suggestedMovie}
-    onClose={() => setIsModalOpen(false)}
-    onNextSuggestion={handleNextSuggestion}
-  />
-)}
-    <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar />
-    {loading && (
-      <div className="loading-overlay">
-        <Spinner animation="border" variant="primary" />
-      </div>
-    )}
-  </div>
-);
+                  <Button
+                    className={`m-2 ${
+                      selectedPlatforms.includes(platform.id)
+                        ? "selected-button"
+                        : "btn-outline-light"
+                    }`}
+                    style={{
+                      width: "120px",
+                      height: "120px",
+                      fontSize: "18px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "10px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    <span style={{ fontSize: "30px" }}>{platform.icon}</span>
+                    <span style={{ fontSize: "16px", textAlign: "center" }}>
+                      {platform.label}
+                    </span>
+                  </Button>
+                </motion.div>
+              ))}
+            </div>
+          </Col>
+        </Row>
+        <Row className="mb-4">
+          <Col className="text-center">
+            <Form.Check
+              type="checkbox"
+              label="Wyszukaj też filmy animowane"
+              onChange={handleIncludeAnimationChange}
+              checked={includeAnimation}
+            />
+          </Col>
+        </Row>
+        <Row className="text-center">
+          <Col>
+            <Button variant="success" onClick={handleSubmit} disabled={loading}>
+              Wyszukaj
+            </Button>
+          </Col>
+        </Row>
+      </Container>
+      {isModalOpen && suggestedMovie && (
+        <MovieSuggestionModal
+          movie={suggestedMovie}
+          onClose={() => setIsModalOpen(false)}
+          onNextSuggestion={handleNextSuggestion}
+        />
+      )}
+      <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar />
+      {loading && (
+        <div className="loading-overlay">
+          <Spinner animation="border" variant="primary" />
+        </div>
+      )}
+    </div>
+  );
 };
 
 const mapMoodsToGenres = (moods) => {
