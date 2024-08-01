@@ -127,7 +127,7 @@ const App = () => {
   return (
     <div className={`App bg-dark text-light ${loading ? "blur" : ""}`}>
       <Container className="py-5">
-        <h1 className="logo-text mb-4">MOODFILM</h1>
+        <h1 className="logo-text mb-4">MoodFilm</h1>
         <Row className="mb-4">
           <Col>
             <h3 className="text-center">Wybierz swój nastrój (maksymalnie dwa)</h3>
