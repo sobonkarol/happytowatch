@@ -127,7 +127,7 @@ const App = () => {
   return (
     <div className={`App bg-dark text-light ${loading ? "blur" : ""}`}>
       <Container className="py-5">
-        <h1 className="logo-text mb-4">MoodFilm</h1>
+        <h1 className="logo-text mb-4">MOODFILM</h1>
         <Row className="mb-4">
           <Col>
             <h3 className="text-center">Wybierz swój nastrój (maksymalnie dwa)</h3>
@@ -141,6 +141,7 @@ const App = () => {
                     selectedMoods.includes(mood.id) ? "selected" : ""
                   }`}
                   onClick={() => handleMoodChange(mood)}
+                  onTouchStart={() => handleMoodChange(mood)} // Dodanie obsługi zdarzenia dotykowego
                 >
                   <Button
                     className={`m-2 ${
@@ -155,12 +156,12 @@ const App = () => {
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
-                      justifyContent                      : "center",
+                      justifyContent: "center",
                       padding: "10px",
                     }}
                   >
                     <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
-                    <span style={{ fontSize: "14px", textAlign: "center" }}>
+                    <span style={{ fontSize                      : "14px", textAlign: "center" }}>
                       {mood.label}
                     </span>
                   </Button>
@@ -182,6 +183,7 @@ const App = () => {
                     selectedPlatforms.includes(platform.id) ? "selected" : ""
                   }`}
                   onClick={() => handlePlatformChange(platform)}
+                  onTouchStart={() => handlePlatformChange(platform)} // Dodanie obsługi zdarzenia dotykowego
                 >
                   <Button
                     className={`m-2 ${
