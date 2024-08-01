@@ -19,7 +19,7 @@ body {
 
 .logo-text {
     font-family: 'Great Vibes', cursive;
-    font-size: 3vw; /* Responsywny rozmiar czcionki */
+    font-size: 3vw;
     color: #ffcc00;
     text-align: center;
     margin-bottom: 20px;
