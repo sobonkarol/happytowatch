@@ -127,7 +127,7 @@ const App = () => {
   return (
     <div className={`App bg-dark text-light ${loading ? "blur" : ""}`}>
       <Container className="py-5">
-        <h1 className="logo-text mb-4">MOODFILM</h1>
+        <h1 className="logo-text mb-4">MoodFilm</h1> {/* Logo tekstowe */}
         <Row className="mb-4">
           <Col>
             <h3 className="text-center">Wybierz swój nastrój (maksymalnie dwa)</h3>
@@ -168,7 +168,7 @@ const App = () => {
             ))}
           </div>
         </Col>
-      </Row>
+        </Row>
       <Row className="mb-4">
         <Col>
           <h3 className="text-center">Wybierz platformy streamingowe</h3>
@@ -188,92 +188,92 @@ const App = () => {
                     selectedPlatforms.includes(platform.id)
                       ? "selected-button"
                       : "btn-outline-light"
-                    }`}
-                    style={{
-                      width: "120px",
-                      height: "120px",
-                      fontSize: "18px",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "10px",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <span style={{ fontSize: "30px" }}>{platform.icon}</span>
-                    <span style={{ fontSize: "16px", textAlign: "center" }}>
-                      {platform.label}
-                    </span>
-                  </Button>
-                </motion.div>
-              ))}
-            </div>
-          </Col>
-        </Row>
-        <Row className="mb-4">
-          <Col className="text-center">
-            <Form.Check
-              type="checkbox"
-              label="Wyszukaj też filmy animowane"
-              onChange={handleIncludeAnimationChange}
-              checked={includeAnimation}
-            />
-          </Col>
-        </Row>
-        <Row className="text-center">
-          <Col>
-            <Button variant="success" onClick={handleSubmit} disabled={loading}>
-              Wyszukaj
-            </Button>
-          </Col>
-        </Row>
-      </Container>
-      {isModalOpen && suggestedMovie && (
-        <MovieSuggestionModal
-          movie={suggestedMovie}
-          onClose={() => setIsModalOpen(false)}
-          onNextSuggestion={handleNextSuggestion}
-        />
-      )}
-      <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar />
-      {loading && (
-        <div className="loading-overlay">
-          <Spinner animation="border" variant="primary" />
-        </div>
-      )}
-    </div>
-  );
+                  }`}
+                  style={{
+                    width: "120px",
+                    height: "120px",
+                    fontSize: "18px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "10px",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <span style={{ fontSize: "30px" }}>{platform.icon}</span>
+                  <span style={{ fontSize: "16px", textAlign: "center" }}>
+                    {platform.label}
+                  </span>
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </Col>
+      </Row>
+      <Row className="mb-4">
+        <Col className="text-center">
+          <Form.Check
+            type="checkbox"
+            label="Wyszukaj też filmy animowane"
+            onChange={handleIncludeAnimationChange}
+            checked={includeAnimation}
+          />
+        </Col>
+      </Row>
+      <Row className="text-center">
+        <Col>
+          <Button variant="success" onClick={handleSubmit} disabled={loading}>
+            Wyszukaj
+          </Button>
+        </Col>
+      </Row>
+    </Container>
+    {isModalOpen && suggestedMovie && (
+      <MovieSuggestionModal
+        movie={suggestedMovie}
+        onClose={() => setIsModalOpen(false)}
+        onNextSuggestion={handleNextSuggestion}
+      />
+    )}
+    <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar />
+    {loading && (
+      <div className="loading-overlay">
+        <Spinner animation="border" variant="primary" />
+      </div>
+    )}
+  </div>
+);
+};
+
+const mapMoodsToGenres = (moods) => {
+  const moodGenreMap = {
+    happy: "35",
+    sad: "18",
+    excited: "28",
+    scared: "27",
+    romantic: "10749",
+    adventurous: "12",
+    mysterious: "9648",
+    dramatic: "10751",
+    sciFi: "878",
+    fantasy: "14",
+    historical: "36",
+    thriller: "53",
+    documentary: "99",
+    funny: "35",
+    inspirational: "99",
+    calm: "10751",
+    curious: "9648",
+    energized: "28",
+    nostalgic: "36",
+    melancholic: "18",
+    motivated: "99",
+    relaxed: "10751",
+    tense: "53",
+    bored: "35",
   };
-  
-  const mapMoodsToGenres = (moods) => {
-    const moodGenreMap = {
-      happy: "35",
-      sad: "18",
-      excited: "28",
-      scared: "27",
-      romantic: "10749",
-      adventurous: "12",
-      mysterious: "9648",
-      dramatic: "10751",
-      sciFi: "878",
-      fantasy: "14",
-      historical: "36",
-      thriller: "53",
-      documentary: "99",
-      funny: "35",
-      inspirational: "99",
-      calm: "10751",
-      curious: "9648",
-      energized: "28",
-      nostalgic: "36",
-      melancholic: "18",
-      motivated: "99",
-      relaxed: "10751",
-      tense: "53",
-      bored: "35",
-    };
-    return moods.map((mood) => moodGenreMap[mood]);
-  };
-  
-  export default App;
+  return moods.map((mood) => moodGenreMap[mood]);
+};
+
+export default App;
