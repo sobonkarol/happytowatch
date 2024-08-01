@@ -17,7 +17,7 @@ const useFetchMovies = () => {
 
     setLoading(true);
     try {
-      const promises = [1, 2, 3, 4, 5, 6, 7, 8].map(page =>
+      const promises = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(page =>
         axios.get(`${BASE_URL}/discover/movie`, {
           params: {
             api_key: TMDB_API_KEY,
@@ -58,7 +58,7 @@ const useFetchMovies = () => {
       }
     } catch (error) {
       console.error("Error fetching movies:", error);
-      toast.error("Wystąpił błąd podczas wyszukiwania filmów.");
+      toast.error("Wystąpił błąd podczas wyszukiwania filmów. Spróbuj ponownie!");
     } finally {
       setLoading(false);
     }

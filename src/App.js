@@ -34,12 +34,13 @@ import "./App.css";
 
 const App = () => {
   const [selectedMoods, setSelectedMoods] = useState([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState([
+    "8", "10", "337", "1899", "350"
+  ]); // Włącz wszystkie platformy domyślnie
   const [includeAnimation, setIncludeAnimation] = useState(false);
   const [suggestedMovie, setSuggestedMovie] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loading, movies, fetchMovies } = useFetchMovies();
-  const [seenMovies, setSeenMovies] = useState([]); // Dodano stan do śledzenia wyświetlonych filmów
 
   const moods = [
     { id: "happy", emoji: <FaRegSmile />, label: "Szczęśliwy" },
@@ -108,28 +109,19 @@ const App = () => {
     } else if (selectedPlatforms.length < 1) {
       toast.warning("Wybierz proszę przynajmniej jedną platformę streamingową.");
     } else {
-      setSeenMovies([]); // Resetuj widziane filmy przy nowym wyszukiwaniu
       fetchMovies(mapMoodsToGenres(selectedMoods), includeAnimation, selectedPlatforms);
     }
-  };
+  };  
 
   useEffect(() => {
     if (movies.length) {
-      handleNextSuggestion(); // Wywołaj nową sugestię filmu przy zakończeniu wyszukiwania
+      setSuggestedMovie(movies[Math.floor(Math.random() * movies.length)]);
+      setIsModalOpen(true);
     }
   }, [movies]);
 
   const handleNextSuggestion = () => {
-    const unseenMovies = movies.filter(movie => !seenMovies.includes(movie.id));
-
-    if (unseenMovies.length === 0) {
-      toast.info("Brak nowych sugestii filmów.");
-      return;
-    }
-
-    const randomMovie = unseenMovies[Math.floor(Math.random() * unseenMovies.length)];
-    setSuggestedMovie(randomMovie);
-    setSeenMovies([...seenMovies, randomMovie.id]);
+    setSuggestedMovie(movies[Math.floor(Math.random() * movies.length)]);
   };
 
   return (
@@ -138,64 +130,64 @@ const App = () => {
         <h1 className="logo-text mb-4">MOODFILM</h1>
         <Row className="mb-4">
           <Col>
-            <h3 className="text-center">Wybierz swój nastrój</h3>
+            <h3 className="text-center">Wybierz swój nastrój (maksymalnie dwa)</h3>
             <div className="mood-selection d-flex flex-wrap justify-content-center">
               {moods.map((mood) => (
                 <motion.div
-                  key={mood.id}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`mood-button ${
-                    selectedMoods.includes(mood.id) ? "selected" : ""
+                key={mood.id}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className={`mood-button ${
+                  selectedMoods.includes(mood.id) ? "selected" : ""
+                }`}
+                onClick={() => handleMoodChange(mood)}
+              >
+                <Button
+                  className={`m-2 ${
+                    selectedMoods.includes(mood.id)
+                      ? "selected-button"
+                      : "btn-outline-light"
                   }`}
-                  onClick={() => handleMoodChange(mood)}
+                  style={{
+                    width: "140px",
+                    height: "140px",
+                    fontSize: "14px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "10px",
+                  }}
                 >
-                  <Button
-                    className={`m-2 ${
-                      selectedMoods.includes(mood.id)
-                        ? "selected-button"
-                        : "btn-outline-light"
-                    }`}
-                    style={{
-                      width: "140px",
-                      height: "140px",
-                      fontSize: "14px",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "10px",
-                    }}
-                  >
-                    <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
-                    <span style={{ fontSize: "14px", textAlign: "center" }}>
-                      {mood.label}
-                    </span>
-                  </Button>
-                </motion.div>
-              ))}
-            </div>
-          </Col>
-        </Row>
-        <Row className="mb-4">
-          <Col>
-            <h3 className="text-center">Wybierz platformy streamingowe</h3>
-            <div className="platform-selection d-flex flex-wrap justify-content-center">
-              {platforms.map((platform) => (
-                <motion.div
-                  key={platform.id}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`platform-button ${
-                    selectedPlatforms.includes(platform.id) ? "selected" : ""
-                  }`}
-                  onClick={() => handlePlatformChange(platform)}
-                >
-                  <Button
-                    className={`m-2 ${
-                      selectedPlatforms.includes(platform.id)
-                        ? "selected-button"
-                        : "btn-outline-light"
+                  <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
+                  <span style={{ fontSize: "14px", textAlign: "center" }}>
+                    {mood.label}
+                  </span>
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </Col>
+      </Row>
+      <Row className="mb-4">
+        <Col>
+          <h3 className="text-center">Wybierz platformy streamingowe</h3>
+          <div className="platform-selection d-flex flex-wrap justify-content-center">
+            {platforms.map((platform) => (
+              <motion.div
+                key={platform.id}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className={`platform-button ${
+                  selectedPlatforms.includes(platform.id) ? "selected" : ""
+                }`}
+                onClick={() => handlePlatformChange(platform)}
+              >
+                <Button
+                  className={`m-2 ${
+                    selectedPlatforms.includes(platform.id)
+                      ? "selected-button"
+                      : "btn-outline-light"
                     }`}
                     style={{
                       width: "120px",
@@ -252,36 +244,36 @@ const App = () => {
       )}
     </div>
   );
-};
-
-const mapMoodsToGenres = (moods) => {
-  const moodGenreMap = {
-    happy: "35",
-    sad: "18",
-    excited: "28",
-    scared: "27",
-    romantic: "10749",
-    adventurous: "12",
-    mysterious: "9648",
-    dramatic: "10751",
-    sciFi: "878",
-    fantasy: "14",
-    historical: "36",
-    thriller: "53",
-    documentary: "99",
-    funny: "35",
-    inspirational: "99",
-    calm: "10751",
-    curious: "9648",
-    energized: "28",
-    nostalgic: "36",
-    melancholic: "18",
-    motivated: "99",
-    relaxed: "10751",
-    tense: "53",
-    bored: "35",
   };
-  return moods.map((mood) => moodGenreMap[mood]);
-};
-
-export default App;
+  
+  const mapMoodsToGenres = (moods) => {
+    const moodGenreMap = {
+      happy: "35",
+      sad: "18",
+      excited: "28",
+      scared: "27",
+      romantic: "10749",
+      adventurous: "12",
+      mysterious: "9648",
+      dramatic: "10751",
+      sciFi: "878",
+      fantasy: "14",
+      historical: "36",
+      thriller: "53",
+      documentary: "99",
+      funny: "35",
+      inspirational: "99",
+      calm: "10751",
+      curious: "9648",
+      energized: "28",
+      nostalgic: "36",
+      melancholic: "18",
+      motivated: "99",
+      relaxed: "10751",
+      tense: "53",
+      bored: "35",
+    };
+    return moods.map((mood) => moodGenreMap[mood]);
+  };
+  
+  export default App;
