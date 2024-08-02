@@ -78,11 +78,16 @@ const App = () => {
 
   const handleMoodChange = (mood) => {
     setSelectedMoods((prevMoods) => {
-      // Toggle mood selection: select if not selected, deselect if selected
       if (prevMoods.includes(mood.id)) {
+        // Odznacz, jeśli jest już zaznaczony
         return prevMoods.filter((m) => m !== mood.id);
-      } else {
+      } else if (prevMoods.length < 2) {
+        // Zaznacz, jeśli mniej niż 2 są zaznaczone
         return [...prevMoods, mood.id];
+      } else {
+        // Ostrzeż, jeśli próbujesz zaznaczyć więcej niż 2
+        toast.warning("Możesz wybrać maksymalnie dwa nastroje.");
+        return prevMoods;
       }
     });
   };
@@ -138,33 +143,29 @@ const App = () => {
             <div className="mood-selection d-flex flex-wrap justify-content-center">
               {moods.map((mood) => (
                 <motion.div
-                  key={mood.id}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`mood-button ${selectedMoods.includes(mood.id) ? "selected" : ""}`}
-                  onClick={() => handleMoodChange(mood)}
-                  onTouchEnd={(e) => {
-                    e.preventDefault(); // Prevent touch events from interfering with clicks
-                    handleMoodChange(mood);
-                  }}
-                >
-                  <Button
-                    className={`m-2 ${selectedMoods.includes(mood.id) ? "selected-button" : "btn-outline-light"}`}
-                    style={{
-                      width: "140px",
-                      height: "140px",
-                      fontSize: "14px",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "10px",
-                    }}
-                  >
-                    <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
-                    <span style={{ fontSize: "14px", textAlign: "center" }}>{mood.label}</span>
-                  </Button>
-                </motion.div>
+  key={mood.id}
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+  className={`mood-button ${selectedMoods.includes(mood.id) ? "selected" : ""}`}
+  onClick={() => handleMoodChange(mood)} // Use only onClick for both mouse and touch
+>
+  <Button
+    className={`m-2 ${selectedMoods.includes(mood.id) ? "selected-button" : "btn-outline-light"}`}
+    style={{
+      width: "140px",
+      height: "140px",
+      fontSize: "14px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "10px",
+    }}
+  >
+    <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
+    <span style={{ fontSize: "14px", textAlign: "center" }}>{mood.label}</span>
+  </Button>
+</motion.div>
               ))}
             </div>
             </Col>
