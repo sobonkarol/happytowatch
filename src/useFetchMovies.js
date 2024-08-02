@@ -17,7 +17,7 @@ const useFetchMovies = () => {
 
     setLoading(true);
     try {
-      const promises = [1, 2, 3, 4, 5, 6, 7].map(page =>
+      const promises = [1, 2, 3, 4, 5].map(page =>
         axios.get(`${BASE_URL}/discover/movie`, {
           params: {
             api_key: TMDB_API_KEY,
@@ -47,7 +47,7 @@ const useFetchMovies = () => {
 
       // Filtruj filmy na podstawie wybranych platform
       const filteredMovies = moviesWithProviders.filter(movie =>
-        movie.vote_average >= 7 &&
+        movie.vote_average >= 4 &&
         movie.providers.some(provider => platforms.includes(provider.provider_id.toString()))
       );
 
