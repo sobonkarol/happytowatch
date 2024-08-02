@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button, Row, Col, Form, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Form, Spinner, Button } from "react-bootstrap"; // Button imported here
 import { motion } from "framer-motion";
 import {
   FaRegSmile,
@@ -69,7 +69,7 @@ const App = () => {
 
   const platforms = [
     { id: ["8"], icon: <RiNetflixFill />, label: "Netflix" },
-    { id: ["119", "10"], icon: <FaAmazon />, label: "Amazon Video" }, // Multiple IDs for Amazon
+    { id: ["119", "10"], icon: <FaAmazon />, label: "Amazon Video" },
     { id: ["337"], icon: <TbBrandDisney />, label: "Disney Plus" },
     { id: ["1899"], icon: <SiHbo />, label: "HBO Max" },
     { id: ["350"], icon: <SiAppletv />, label: "Apple TV+" },
@@ -79,30 +79,27 @@ const App = () => {
   const handleMoodChange = (mood) => {
     setSelectedMoods((prevMoods) => {
       if (prevMoods.includes(mood.id)) {
-        // Odznacz, jeśli jest już zaznaczony
+        // Deselect if already selected
         return prevMoods.filter((m) => m !== mood.id);
       } else if (prevMoods.length < 2) {
-        // Zaznacz, jeśli mniej niż 2 są zaznaczone
+        // Select if less than 2 are selected
         return [...prevMoods, mood.id];
       } else {
-        // Ostrzeż, jeśli próbujesz zaznaczyć więcej niż 2
+        // Show warning if trying to select more than 2
         toast.warning("Możesz wybrać maksymalnie dwa nastroje.");
         return prevMoods;
       }
     });
   };
 
-
   const handlePlatformChange = (platform) => {
     setSelectedPlatforms((prevPlatforms) => {
-      const platformIDs = platform.id; // Use the array of IDs
-      const isSelected = platformIDs.some((id) => prevPlatforms.includes(id)); // Check if any ID is selected
+      const platformIDs = platform.id;
+      const isSelected = platformIDs.some((id) => prevPlatforms.includes(id));
 
       if (isSelected) {
-        // If any of the platform's IDs is selected, remove all
         return prevPlatforms.filter((p) => !platformIDs.includes(p));
       } else {
-        // Add all platform IDs
         return [...prevPlatforms, ...platformIDs];
       }
     });
@@ -118,7 +115,11 @@ const App = () => {
     } else if (selectedPlatforms.length < 1) {
       toast.warning("Wybierz proszę przynajmniej jedną platformę streamingową.");
     } else {
-      fetchMovies(mapMoodsToGenres(selectedMoods), includeAnimation, selectedPlatforms);
+      fetchMovies(
+        mapMoodsToGenres(selectedMoods),
+        includeAnimation,
+        selectedPlatforms
+      );
     }
   };
 
@@ -141,34 +142,50 @@ const App = () => {
           <Col>
             <h3 className="text-center">Wybierz swój nastrój (maksymalnie dwa)</h3>
             <div className="mood-selection d-flex flex-wrap justify-content-center">
-              {moods.map((mood) => (
-                <motion.div
-  key={mood.id}
-  whileHover={{ scale: 1.1 }}
-  whileTap={{ scale: 0.9 }}
-  className={`mood-button ${selectedMoods.includes(mood.id) ? "selected" : ""}`}
-  onClick={() => handleMoodChange(mood)} // Use only onClick for both mouse and touch
->
-  <Button
-    className={`m-2 ${selectedMoods.includes(mood.id) ? "selected-button" : "btn-outline-light"}`}
-    style={{
-      width: "140px",
-      height: "140px",
-      fontSize: "14px",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "10px",
-    }}
-  >
-    <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
-    <span style={{ fontSize: "14px", textAlign: "center" }}>{mood.label}</span>
-  </Button>
-</motion.div>
-              ))}
-            </div>
-            </Col>
+  {moods.map((mood) => (
+    <motion.div
+      key={mood.id}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      className={`mood-button ${
+        selectedMoods.includes(mood.id) ? "selected" : ""
+      }`}
+    >
+      <motion.button
+        className={`m-2 ${
+          selectedMoods.includes(mood.id)
+            ? "selected-button"
+            : "btn-outline-light"
+        }`}
+        style={{
+          width: "140px",
+          height: "140px",
+          fontSize: "14px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "10px",
+          borderRadius: "8px",
+          transition: "background-color 0.3s, color 0.3s, box-shadow 0.3s",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+          backgroundColor: selectedMoods.includes(mood.id)
+            ? "#5a647d"
+            : "transparent",
+          borderColor: "#5a647d",
+          color: selectedMoods.includes(mood.id) ? "#fff" : "#5a647d",
+        }}
+        onTap={() => handleMoodChange(mood)}
+      >
+        <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
+        <span style={{ fontSize: "14px", textAlign: "center" }}>
+          {mood.label}
+        </span>
+      </motion.button>
+    </motion.div>
+  ))}
+</div>
+          </Col>
         </Row>
         <Row className="mb-4">
           <Col>
@@ -176,7 +193,7 @@ const App = () => {
             <div className="platform-selection d-flex flex-wrap justify-content-center">
               {platforms.map((platform) => (
                 <motion.div
-                  key={platform.label} // Use a unique key for each platform
+                  key={platform.label}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   className={`platform-button ${
@@ -184,13 +201,8 @@ const App = () => {
                       ? "selected"
                       : ""
                   }`}
-                  onClick={() => handlePlatformChange(platform)}
-                  onTouchEnd={(e) => {
-                    e.preventDefault(); // Prevent touch events from interfering with clicks
-                    handlePlatformChange(platform);
-                  }}
                 >
-                  <Button
+                  <motion.button
                     className={`m-2 ${
                       platform.id.some((id) => selectedPlatforms.includes(id))
                         ? "selected-button"
@@ -207,12 +219,13 @@ const App = () => {
                       padding: "10px",
                       borderRadius: "8px",
                     }}
+                    onTap={() => handlePlatformChange(platform)}
                   >
                     <span style={{ fontSize: "30px" }}>{platform.icon}</span>
                     <span style={{ fontSize: "16px", textAlign: "center" }}>
                       {platform.label}
                     </span>
-                  </Button>
+                  </motion.button>
                 </motion.div>
               ))}
             </div>
