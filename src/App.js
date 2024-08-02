@@ -78,17 +78,15 @@ const App = () => {
 
   const handleMoodChange = (mood) => {
     setSelectedMoods((prevMoods) => {
+      // Toggle mood selection: select if not selected, deselect if selected
       if (prevMoods.includes(mood.id)) {
         return prevMoods.filter((m) => m !== mood.id);
-      } else if (prevMoods.length < 2) {
-        return [...prevMoods, mood.id];
       } else {
-        // Optionally show a warning if attempting to select more than 2
-        toast.warning("Możesz wybrać maksymalnie dwa nastroje.");
-        return prevMoods;
+        return [...prevMoods, mood.id];
       }
     });
   };
+
 
   const handlePlatformChange = (platform) => {
     setSelectedPlatforms((prevPlatforms) => {
