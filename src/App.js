@@ -22,7 +22,7 @@ import {
   FaBolt,
 } from "react-icons/fa";
 import { RiNetflixFill } from "react-icons/ri";
-import { TbBrandDisney } from "react-icons/tb";
+import { TbBrandDisney, TbPlayerPlayFilled } from "react-icons/tb";
 import { FaAmazon } from "react-icons/fa";
 import { SiHbo, SiAppletv } from "react-icons/si";
 import MovieSuggestionModal from "./components/MovieSuggestionModal";
@@ -34,9 +34,7 @@ import "./App.css";
 
 const App = () => {
   const [selectedMoods, setSelectedMoods] = useState([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState([
-    "8", "10", "337", "1899", "350"
-  ]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [includeAnimation, setIncludeAnimation] = useState(false);
   const [suggestedMovie, setSuggestedMovie] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,11 +68,12 @@ const App = () => {
   ];
 
   const platforms = [
-    { id: "8", icon: <RiNetflixFill />, label: "Netflix" },
-    { id: "10", icon: <FaAmazon />, label: "Amazon Prime Video" },
-    { id: "337", icon: <TbBrandDisney />, label: "Disney Plus" },
-    { id: "1899", icon: <SiHbo />, label: "HBO Max" },
-    { id: "350", icon: <SiAppletv />, label: "Apple TV Plus" },
+    { id: ["8"], icon: <RiNetflixFill />, label: "Netflix" },
+    { id: ["119", "10"], icon: <FaAmazon />, label: "Amazon Video" }, // Multiple IDs for Amazon
+    { id: ["337"], icon: <TbBrandDisney />, label: "Disney Plus" },
+    { id: ["1899"], icon: <SiHbo />, label: "HBO Max" },
+    { id: ["350"], icon: <SiAppletv />, label: "Apple TV+" },
+    { id: ["505"], icon: <TbPlayerPlayFilled />, label: "Player" },
   ];
 
   const handleMoodChange = (mood) => {
@@ -91,10 +90,17 @@ const App = () => {
 
   const handlePlatformChange = (platform) => {
     setSelectedPlatforms((prevPlatforms) => {
-      if (prevPlatforms.includes(platform.id)) {
-        return prevPlatforms.filter((p) => p !== platform.id);
+      const platformIDs = platform.id; // Use the array of IDs
+      const isSelected = platformIDs.some((id) =>
+        prevPlatforms.includes(id)
+      ); // Check if any ID is selected
+
+      if (isSelected) {
+        // If any of the platform's IDs is selected, remove all
+        return prevPlatforms.filter((p) => !platformIDs.includes(p));
       } else {
-        return [...prevPlatforms, platform.id];
+        // Add all platform IDs
+        return [...prevPlatforms, ...platformIDs];
       }
     });
   };
@@ -107,9 +113,15 @@ const App = () => {
     if (selectedMoods.length < 1) {
       toast.warning("Wybierz proszę przynajmniej jeden nastrój.");
     } else if (selectedPlatforms.length < 1) {
-      toast.warning("Wybierz proszę przynajmniej jedną platformę streamingową.");
+      toast.warning(
+        "Wybierz proszę przynajmniej jedną platformę streamingową."
+      );
     } else {
-      fetchMovies(mapMoodsToGenres(selectedMoods), includeAnimation, selectedPlatforms);
+      fetchMovies(
+        mapMoodsToGenres(selectedMoods),
+        includeAnimation,
+        selectedPlatforms
+      );
     }
   };
 
@@ -130,7 +142,9 @@ const App = () => {
         <h1 className="logo-text mb-4">MoodFilm</h1>
         <Row className="mb-4">
           <Col>
-            <h3 className="text-center">Wybierz swój nastrój (maksymalnie dwa)</h3>
+            <h3 className="text-center">
+              Wybierz swój nastrój (maksymalnie dwa)
+            </h3>
             <div className="mood-selection d-flex flex-wrap justify-content-center">
               {moods.map((mood) => (
                 <motion.div
@@ -161,7 +175,7 @@ const App = () => {
                     }}
                   >
                     <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
-                    <span style={{ fontSize                      : "14px", textAlign: "center" }}>
+                    <span style={{ fontSize: "14px", textAlign: "center" }}>
                       {mood.label}
                     </span>
                   </Button>
@@ -172,22 +186,24 @@ const App = () => {
         </Row>
         <Row className="mb-4">
           <Col>
-            <h3 className="text-center">Wybierz platformy streamingowe</h3>
+          <h3 className="text-center">Wybierz platformy streamingowe</h3>
             <div className="platform-selection d-flex flex-wrap justify-content-center">
               {platforms.map((platform) => (
                 <motion.div
-                  key={platform.id}
+                  key={platform.label} // Use a unique key for each platform
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   className={`platform-button ${
-                    selectedPlatforms.includes(platform.id) ? "selected" : ""
+                    platform.id.some((id) => selectedPlatforms.includes(id)) // Check if any ID is selected
+                      ? "selected"
+                      : ""
                   }`}
                   onClick={() => handlePlatformChange(platform)}
-                  onTouchStart={() => handlePlatformChange(platform)} // Dodanie obsługi zdarzenia dotykowego
+                  onTouchStart={() => handlePlatformChange(platform)} // Add touch event handling
                 >
                   <Button
                     className={`m-2 ${
-                      selectedPlatforms.includes(platform.id)
+                      platform.id.some((id) => selectedPlatforms.includes(id))
                         ? "selected-button"
                         : "btn-outline-light"
                     }`}
@@ -238,7 +254,11 @@ const App = () => {
           onNextSuggestion={handleNextSuggestion}
         />
       )}
-      <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar
+      />
       {loading && (
         <div className="loading-overlay">
           <Spinner animation="border" variant="primary" />

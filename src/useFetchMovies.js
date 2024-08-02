@@ -17,7 +17,7 @@ const useFetchMovies = () => {
 
     setLoading(true);
     try {
-      const promises = [1, 2, 3, 4, 5].map(page =>
+      const promises = [1, 2, 3, 4, 5, 6, 7].map(page =>
         axios.get(`${BASE_URL}/discover/movie`, {
           params: {
             api_key: TMDB_API_KEY,
