@@ -83,7 +83,7 @@ const App = () => {
       } else if (prevMoods.length < 2) {
         return [...prevMoods, mood.id];
       } else {
-        // Show warning only once when trying to select more than 2 moods
+        // Optionally show a warning if attempting to select more than 2
         toast.warning("Możesz wybrać maksymalnie dwa nastroje.");
         return prevMoods;
       }
@@ -113,15 +113,9 @@ const App = () => {
     if (selectedMoods.length < 1) {
       toast.warning("Wybierz proszę przynajmniej jeden nastrój.");
     } else if (selectedPlatforms.length < 1) {
-      toast.warning(
-        "Wybierz proszę przynajmniej jedną platformę streamingową."
-      );
+      toast.warning("Wybierz proszę przynajmniej jedną platformę streamingową.");
     } else {
-      fetchMovies(
-        mapMoodsToGenres(selectedMoods),
-        includeAnimation,
-        selectedPlatforms
-      );
+      fetchMovies(mapMoodsToGenres(selectedMoods), includeAnimation, selectedPlatforms);
     }
   };
 
@@ -142,26 +136,22 @@ const App = () => {
         <h1 className="logo-text mb-4">MoodFilm</h1>
         <Row className="mb-4">
           <Col>
-            <h3 className="text-center">
-              Wybierz swój nastrój (maksymalnie dwa)
-            </h3>
+            <h3 className="text-center">Wybierz swój nastrój (maksymalnie dwa)</h3>
             <div className="mood-selection d-flex flex-wrap justify-content-center">
               {moods.map((mood) => (
                 <motion.div
                   key={mood.id}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  className={`mood-button ${
-                    selectedMoods.includes(mood.id) ? "selected" : ""
-                  }`}
+                  className={`mood-button ${selectedMoods.includes(mood.id) ? "selected" : ""}`}
                   onClick={() => handleMoodChange(mood)}
+                  onTouchEnd={(e) => {
+                    e.preventDefault(); // Prevent touch events from interfering with clicks
+                    handleMoodChange(mood);
+                  }}
                 >
                   <Button
-                    className={`m-2 ${
-                      selectedMoods.includes(mood.id)
-                        ? "selected-button"
-                        : "btn-outline-light"
-                    }`}
+                    className={`m-2 ${selectedMoods.includes(mood.id) ? "selected-button" : "btn-outline-light"}`}
                     style={{
                       width: "140px",
                       height: "140px",
@@ -174,14 +164,12 @@ const App = () => {
                     }}
                   >
                     <span style={{ fontSize: "30px" }}>{mood.emoji}</span>
-                    <span style={{ fontSize: "14px", textAlign: "center" }}>
-                      {mood.label}
-                    </span>
+                    <span style={{ fontSize: "14px", textAlign: "center" }}>{mood.label}</span>
                   </Button>
                 </motion.div>
               ))}
             </div>
-          </Col>
+            </Col>
         </Row>
         <Row className="mb-4">
           <Col>
@@ -198,6 +186,10 @@ const App = () => {
                       : ""
                   }`}
                   onClick={() => handlePlatformChange(platform)}
+                  onTouchEnd={(e) => {
+                    e.preventDefault(); // Prevent touch events from interfering with clicks
+                    handlePlatformChange(platform);
+                  }}
                 >
                   <Button
                     className={`m-2 ${
@@ -252,11 +244,7 @@ const App = () => {
           onNextSuggestion={handleNextSuggestion}
         />
       )}
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar
-      />
+      <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar />
       {loading && (
         <div className="loading-overlay">
           <Spinner animation="border" variant="primary" />
