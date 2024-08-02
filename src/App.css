@@ -53,6 +53,9 @@ body {
     padding: 10px;
     width: 140px;
     height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .mood-button .btn-outline-light:hover,
@@ -90,25 +93,30 @@ body {
 
 @media (max-width: 768px) {
     .logo-text {
-        font-size: 10vw;
+        font-size: 6vw; /* Adjusted for better visibility on tablets */
     }
 
     .mood-button .btn-outline-light,
     .platform-button .btn-outline-light {
         width: 120px;
         height: 120px;
+        font-size: 13px; /* Slightly reduce font size for better fit */
     }
 }
 
 @media (max-width: 480px) {
     .logo-text {
-        font-size: 12vw;
+        font-size: 8vw; /* Reduced to fit smaller mobile screens */
     }
 
     .mood-button .btn-outline-light,
     .platform-button .btn-outline-light {
         width: 100px;
         height: 100px;
-        font-size: 12px;
+        font-size: 11px; /* Further reduced for smaller screens */
+    }
+
+    .selected-button {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Slightly less shadow for mobile */
     }
 }

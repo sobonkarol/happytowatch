@@ -83,7 +83,9 @@ const App = () => {
       } else if (prevMoods.length < 2) {
         return [...prevMoods, mood.id];
       } else {
-        return prevMoods; // If two moods are already selected, do not change
+        // Show warning only once when trying to select more than 2 moods
+        toast.warning("Możesz wybrać maksymalnie dwa nastroje.");
+        return prevMoods;
       }
     });
   };
@@ -91,9 +93,7 @@ const App = () => {
   const handlePlatformChange = (platform) => {
     setSelectedPlatforms((prevPlatforms) => {
       const platformIDs = platform.id; // Use the array of IDs
-      const isSelected = platformIDs.some((id) =>
-        prevPlatforms.includes(id)
-      ); // Check if any ID is selected
+      const isSelected = platformIDs.some((id) => prevPlatforms.includes(id)); // Check if any ID is selected
 
       if (isSelected) {
         // If any of the platform's IDs is selected, remove all
@@ -155,7 +155,6 @@ const App = () => {
                     selectedMoods.includes(mood.id) ? "selected" : ""
                   }`}
                   onClick={() => handleMoodChange(mood)}
-                  onTouchStart={() => handleMoodChange(mood)} // Add touch event handling
                 >
                   <Button
                     className={`m-2 ${
@@ -191,15 +190,14 @@ const App = () => {
               {platforms.map((platform) => (
                 <motion.div
                   key={platform.label} // Use a unique key for each platform
-                  whileHover={{ scale: 1 }}
+                  whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   className={`platform-button ${
-                    platform.id.some((id) => selectedPlatforms.includes(id)) // Check if any ID is selected
+                    platform.id.some((id) => selectedPlatforms.includes(id))
                       ? "selected"
                       : ""
                   }`}
                   onClick={() => handlePlatformChange(platform)}
-                  onTouchStart={() => handlePlatformChange(platform)} // Add touch event handling
                 >
                   <Button
                     className={`m-2 ${
@@ -254,7 +252,11 @@ const App = () => {
           onNextSuggestion={handleNextSuggestion}
         />
       )}
-      <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar
+      />
       {loading && (
         <div className="loading-overlay">
           <Spinner animation="border" variant="primary" />
