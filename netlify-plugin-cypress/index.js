@@ -9,5 +9,4 @@ module.exports = {
         utils.build.failBuild('Cypress tests failed', { error });
       }
     },
-  };
-  
+  };  
