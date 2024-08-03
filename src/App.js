@@ -191,44 +191,55 @@ const App = () => {
           <Col>
             <h3 className="text-center">Wybierz platformy streamingowe</h3>
             <div className="platform-selection d-flex flex-wrap justify-content-center">
-              {platforms.map((platform) => (
-                <motion.div
-                  key={platform.label}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`platform-button ${
-                    platform.id.some((id) => selectedPlatforms.includes(id))
-                      ? "selected"
-                      : ""
-                  }`}
-                >
-                  <motion.button
-                    className={`m-2 ${
-                      platform.id.some((id) => selectedPlatforms.includes(id))
-                        ? "selected-button"
-                        : "btn-outline-light"
-                    }`}
-                    style={{
-                      width: "140px",
-                      height: "140px",
-                      fontSize: "14px",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "10px",
-                      borderRadius: "8px",
-                    }}
-                    onTap={() => handlePlatformChange(platform)}
-                  >
-                    <span style={{ fontSize: "30px" }}>{platform.icon}</span>
-                    <span style={{ fontSize: "16px", textAlign: "center" }}>
-                      {platform.label}
-                    </span>
-                  </motion.button>
-                </motion.div>
-              ))}
-            </div>
+  {platforms.map((platform) => (
+    <motion.div
+      key={platform.label}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      className={`platform-button ${
+        platform.id.some((id) => selectedPlatforms.includes(id))
+          ? "selected"
+          : ""
+      }`}
+    >
+      <motion.button
+        className={`m-2 ${
+          platform.id.some((id) => selectedPlatforms.includes(id))
+            ? "selected-button"
+            : "btn-outline-light"
+        }`}
+        style={{
+          width: "140px",
+          height: "140px",
+          fontSize: "14px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "10px",
+          borderRadius: "8px",
+          transition: "background-color 0.3s, color 0.3s, box-shadow 0.3s",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+          backgroundColor: platform.id.some((id) =>
+            selectedPlatforms.includes(id)
+          )
+            ? "#5a647d"
+            : "transparent",
+          borderColor: "#5a647d",
+          color: platform.id.some((id) => selectedPlatforms.includes(id))
+            ? "#fff"
+            : "#5a647d",
+        }}
+        onTap={() => handlePlatformChange(platform)}
+      >
+        <span style={{ fontSize: "30px" }}>{platform.icon}</span>
+        <span style={{ fontSize: "16px", textAlign: "center" }}>
+          {platform.label}
+        </span>
+      </motion.button>
+    </motion.div>
+  ))}
+</div>
           </Col>
         </Row>
         <Row className="mb-4">
