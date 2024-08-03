@@ -2,5 +2,11 @@
   publish = "build"
   command = "npm run build"
 
+[context.production]
+  command = "npm run build:prod"
+
+[context.deploy-preview]
+  command = "npm run build:dev"
+
 [[plugins]]
   package = "./netlify-plugin-cypress"
