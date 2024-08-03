@@ -3,4 +3,4 @@
   command = "npm run build"
 
 [[plugins]]
-  package = "./cypress"
+  package = "./netlify-plugin-cypress"

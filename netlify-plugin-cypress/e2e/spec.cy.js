@@ -2,7 +2,7 @@
 
 describe('MoodFilm App Regression Test', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    cy.visit('http://moodfilm.pl/');
   });
 
   context('Mood Selection', () => {
