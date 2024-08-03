@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
-import './MoodSelectorModal.css';
 
 const MoodSelectorModal = ({ onMoodSelect }) => {
 const [selectedMoods, setSelectedMoods] = useState([]);

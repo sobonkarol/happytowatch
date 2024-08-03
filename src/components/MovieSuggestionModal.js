@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button, Spinner } from 'react-bootstrap';
-import './MovieSuggestionModal.css';
+import '../styles/MovieSuggestionModal.css';
 import { RiNetflixFill } from "react-icons/ri";
 import { TbBrandDisney, TbPlayerPlayFilled } from "react-icons/tb";
 import { FaAmazon, FaSync } from "react-icons/fa";
