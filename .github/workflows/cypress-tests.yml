@@ -28,10 +28,10 @@ jobs:
         run: npm run test:ci || true
 
       - name: Upload Test Report
-        uses: actions/upload-artifact@v4  # Updated to v4
+        uses: actions/upload-artifact@v4
         with:
-          name: cypress-report
-          path: cypress/reports/*.html
+        name: cypress-report
+        path: cypress/reports/  # Change this to upload the entire reports directory
 
       - name: Post HTML Report Comment
         if: ${{ github.event_name == 'pull_request' }}
