@@ -2,7 +2,7 @@
 
 describe('MoodFilm App Regression Test', () => {
   beforeEach(() => {
-    cy.visit(process.env.DEPLOY_PRIME_URL);
+    cy.visit('https://deploy-preview-1.moodfilm.pl/');
   });
 
   context('Mood Selection', () => {
