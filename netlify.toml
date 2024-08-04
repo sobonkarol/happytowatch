@@ -6,5 +6,5 @@
   command = "npm run build && npm run test && npm run postbuild"
 
 [context.deploy-preview]
-  command = "npm run build && npm run test && npm run postbuild"
+  command = "npm run build"
   
