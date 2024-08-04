@@ -25,7 +25,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "cypress run --reporter cypress-mochawesome-reporter",
-    "test:ci": "cypress run --reporter cypress-mochawesome-reporter",
+    "test:ci": "cypress run --reporter cypress-mochawesome-reporter --reporter-options reportDir=cypress/reports,overwrite=false,html=false,json=true",
     "postbuild": "cp -R cypress/reports build/reports",
     "eject": "react-scripts eject"
   },

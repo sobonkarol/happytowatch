@@ -28,7 +28,9 @@ jobs:
       run: npm run test:ci || true
 
     - name: Generate HTML Report
-      run: npx mochawesome-merge cypress/reports/*.json | npx mochawesome-report-generator --reportDir cypress/reports
+      run: |
+        npx mochawesome-merge cypress/reports/*.json > cypress/reports/merged-report.json
+        npx mochawesome-report-generator cypress/reports/merged-report.json --reportDir cypress/reports
 
     - name: Upload Test Report
       uses: actions/upload-artifact@v3
