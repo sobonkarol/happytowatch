@@ -8,8 +8,6 @@
 [context.deploy-preview]
   command = "npm run build && npm run test && npm run postbuild"
 
-[context.deploy-preview.environment]
-  CYPRESS_baseUrl = "https://moodfilm.pl/"
-
 [[plugins]]
   package = "./netlify-plugin-cypress"
+  

@@ -2,8 +2,7 @@
 
 describe('MoodFilm App Regression Test', () => {
   beforeEach(() => {
-    const baseUrl = Cypress.env('baseUrl') || 'http://localhost:3000';
-    cy.visit(baseUrl);
+    cy.visit('https://moodfilm.netlify.app/');
   });
 
   context('Mood Selection', () => {
