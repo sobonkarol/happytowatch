@@ -11,7 +11,4 @@
 
 [context.deploy-preview.environment]
   CYPRESS_baseUrl = "${DEPLOY_PRIME_URL}"
-
-[context.deploy-preview.environment]
-  CYPRESS_baseUrl = "${DEPLOY_PRIME_URL}"
   
