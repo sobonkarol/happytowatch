@@ -8,7 +8,7 @@ module.exports = defineConfig({
       
       // You can add other plugins here as needed
     },
-    baseUrl: 'http://moodfilm.pl', // Set the base URL for your app
+    baseUrl: 'http://localhost:3000/', // Set the base URL for your app
     supportFile: 'cypress/support/e2e.js', // Ensure support file is set
     reporter: 'cypress-mochawesome-reporter', // Use mochawesome reporter
     reporterOptions: {

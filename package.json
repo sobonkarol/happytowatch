@@ -23,8 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build:prod": "react-scripts build",
-    "build:dev": "react-scripts build",
+    "build": "react-scripts build",
     "test": "cypress run --reporter cypress-mochawesome-reporter",
     "postbuild": "cp -R cypress/reports build/reports",
     "eject": "react-scripts eject"

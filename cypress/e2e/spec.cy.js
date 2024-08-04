@@ -2,7 +2,8 @@
 
 describe('MoodFilm App Regression Test', () => {
   beforeEach(() => {
-    cy.visit('http://moodfilm.pl/');
+    const baseUrl = Cypress.env('baseUrl') || 'http://localhost:3000';
+    cy.visit(baseUrl);
   });
 
   context('Mood Selection', () => {
@@ -102,7 +103,7 @@ describe('MoodFilm App Regression Test', () => {
 
     it('should handle API errors gracefully', () => {
       // Given the API returns an error
-      cy.intercept('GET', '3/discover/movie?api_key=c7fefbc9842b298dffc7d99482474c9f&language=pl-PL&sort_by=popularity.desc&include_adult=true&page=1&with_genres=35&without_genres=16&watch_region=PL', (req) => {
+      cy.intercept('GET', '3/discover/movie?api_key=f444a77f642f0982dbc23fda35d86cf6&language=pl-PL&sort_by=popularity.desc&include_adult=true&page=1&with_genres=35&without_genres=16&watch_region=PL', (req) => {
         console.log('Intercepted request:', req);  // Debugging log
         req.reply({
           statusCode: 500,
