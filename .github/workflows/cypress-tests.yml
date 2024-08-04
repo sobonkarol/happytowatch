@@ -25,16 +25,16 @@ jobs:
         run: npm install
 
       - name: Run Cypress tests
-        run: npm run test:ci || true
+        run: npm run test:ci || true  # Ensures the workflow continues even if tests fail
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
         with:
-        name: cypress-report
-        path: cypress/reports/  # Change this to upload the entire reports directory
+          name: cypress-report
+          path: cypress/reports/  # Uploads the entire 'reports' directory
 
       - name: Post HTML Report Comment
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' }}  # Ensures this step only runs for pull requests
         uses: actions/github-script@v6
         with:
           script: |
