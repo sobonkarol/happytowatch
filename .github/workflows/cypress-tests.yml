@@ -13,35 +13,59 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run Cypress tests
-      run: npm run test:ci || true
+      - name: Run Cypress tests
+        run: npm run test:ci || true
 
-    - name: Generate HTML Report
-      run: |
-        npx mochawesome-merge cypress/reports/*.json > cypress/reports/merged-report.json
-        npx mochawesome-report-generator cypress/reports/merged-report.json --reportDir cypress/reports
+      - name: Generate HTML Report
+        run: |
+          npx mochawesome-merge cypress/reports/*.json > cypress/reports/merged-report.json
+          npx mochawesome-report-generator cypress/reports/merged-report.json --reportDir cypress/reports
 
-    - name: Upload Test Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: cypress-report
-        path: cypress/reports/*.html
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-report
+          path: cypress/reports/*.html
 
-    - name: Comment on Pull Request
-      if: ${{ github.event_name == 'pull_request' }}
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        message: |
-          Cypress Test Report:
-          [View Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+      - name: Post HTML Report Comment
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+            });
+
+            const existingComment = comments.find(comment => comment.user.login === 'github-actions[bot]' && comment.body.includes('Cypress Test Report:'));
+
+            const reportUrl = `${process.env.GITHUB_SERVER_URL}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const reportMessage = `Cypress Test Report: [View HTML Report](${reportUrl})`;
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: reportMessage,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body: reportMessage,
+              });
+            }
