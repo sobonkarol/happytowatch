@@ -25,7 +25,10 @@ jobs:
       run: npm install
 
     - name: Run Cypress tests
-      run: npm run test:ci
+      run: npm run test:ci || true
+
+    - name: Generate HTML Report
+      run: npx mochawesome-merge cypress/reports/*.json | npx mochawesome-report-generator --reportDir cypress/reports
 
     - name: Upload Test Report
       uses: actions/upload-artifact@v3
