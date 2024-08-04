@@ -1,0 +1,42 @@
+name: Cypress Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run Cypress tests
+      run: npm run test:ci
+
+    - name: Upload Test Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: cypress-report
+        path: cypress/reports/*.html
+
+    - name: Comment on Pull Request
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        message: |
+          Cypress Test Report:
+          [View Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
