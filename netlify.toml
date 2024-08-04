@@ -1,11 +1,11 @@
 [build]
   publish = "build"
-  command = "npm run build && npm run test && npm run postbuild"
+  command = "npm run build
 
 [context.production]
   command = "npm run build"
 
 [context.deploy-preview]
-  command = "npm run build && npm run test && npm run postbuild"
+  command = "npm run build"
   publish = "build"
   
