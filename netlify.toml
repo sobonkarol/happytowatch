@@ -7,6 +7,3 @@
 
 [context.deploy-preview]
   command = "npm run build:dev"
-
-[[plugins]]
-  package = "./netlify-plugin-cypress"
