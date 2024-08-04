@@ -3,11 +3,9 @@
   command = "npm run build"
 
 [context.production]
-  command = "npm run build:prod"
+  command = "npm run build"
 
 [context.deploy-preview]
-  command = "npm run build:dev"
-
-[[plugins]]
-  package = "./netlify-plugin-cypress"
+  command = "npm run build"
+  publish = "build"
   

@@ -15,6 +15,7 @@ const platforms = [
   { id: ["1899"], icon: <SiHbo />, label: "HBO Max" },
   { id: ["350"], icon: <SiAppletv />, label: "Apple TV+" },
   { id: ["505"], icon: <TbPlayerPlayFilled />, label: "Player" },
+  { id: ["0"], icon: <TbPlayerPlayFilled />, label: "SkyShowtime" },
 ];
 
 const PlatformSelector = memo(({ selectedPlatforms, handlePlatformChange }) => (

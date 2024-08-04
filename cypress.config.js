@@ -20,7 +20,7 @@ module.exports = defineConfig({
       embeddedScreenshots: true, // Embed screenshots in the report
       inlineAssets: true, // Include CSS and JS inline for self-contained report
     },
-    video: true, // Capture video of test runs
+    video: false, // Capture video of test runs
     screenshotOnRunFailure: true, // Capture screenshots on test failure
   },
 });
