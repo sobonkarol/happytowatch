@@ -7,11 +7,11 @@ describe("MoodFilm App Regression Test", () => {
 
   context("Mood Selection", () => {
     it("should allow search with at least one mood selected", () => {
-      // And selects a platform
-      cy.get(".platform-button .btn-outline-light").first().click();
-
       // Given the user selects a mood
       cy.get(".mood-button .btn-outline-light").contains("Sci-Fi").click();
+
+      // And selects a platform
+      cy.get(".platform-button .btn-outline-light").first().click();
 
       // When the user searches for movies
       cy.get("button").contains("Wyszukaj").click();
@@ -19,7 +19,7 @@ describe("MoodFilm App Regression Test", () => {
       // Then a movie suggestion modal should appear
       cy.get(".modal").should("be.visible");
     });
-    
+
     it("should display a warning when more than two moods are selected", () => {
       // Given the user has selected the first mood
       cy.get(".mood-button .btn-outline-light").first().click();
