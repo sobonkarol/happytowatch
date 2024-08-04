@@ -11,7 +11,8 @@ module.exports = defineConfig({
       reportDir: 'cypress/reports', // Directory for storing reports
       overwrite: true,              // Overwrite existing reports for each run
       html: true,                   // Enable HTML report generation
-      json: false                   // Disable JSON report generation
+      json: false,                   // Disable JSON report generation
+      video: true
     },
   },
 });
