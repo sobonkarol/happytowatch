@@ -29,7 +29,6 @@
     "postbuild": "cp -R cypress/reports build/reports",
     "eject": "react-scripts eject"
   },
-  
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -49,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@badeball/cypress-cucumber-preprocessor": "^20.1.1",
     "cypress": "^13.13.2",
     "cypress-cucumber-preprocessor": "^4.3.1",
