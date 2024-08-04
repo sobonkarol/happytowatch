@@ -37,7 +37,7 @@ describe("MoodFilm App Regression Test", () => {
       cy.get(".platform-button .btn-outline-light").first().click();
 
       // Given the user selects a mood
-      cy.get(".mood-button .btn-outline-light").first().click();
+      cy.get(".mood-button .btn-outline-light").contains("Sci-Fi").click();
 
       // When the user searches for movies
       cy.get("button").contains("Wyszukaj").click();
