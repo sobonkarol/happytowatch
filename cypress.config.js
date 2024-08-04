@@ -13,9 +13,9 @@ module.exports = defineConfig({
     reporter: 'cypress-mochawesome-reporter', // Use mochawesome reporter
     reporterOptions: {
       reportDir: 'cypress/reports', // Directory where reports are stored
-      overwrite: false, // Prevent overwriting of previous reports
+      overwrite: true, // Prevent overwriting of previous reports
       html: true, // Generate HTML reports
-      json: true, // Generate JSON reports
+      json: false, // Generate JSON reports
       reportPageTitle: 'MoodFilm Test Report', // Set a custom report page title
       embeddedScreenshots: true, // Embed screenshots in the report
       inlineAssets: true, // Include CSS and JS inline for self-contained report

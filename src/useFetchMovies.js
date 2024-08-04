@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const TMDB_API_KEY = process.env.API_KEY;
+const TMDB_API_KEY = process.env.REACT_APP_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
