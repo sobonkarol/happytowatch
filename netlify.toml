@@ -3,11 +3,15 @@
   command = "npm run build && npm run test && npm run postbuild"
 
 [context.production]
-  command = "npm run build && npm run test && npm run postbuild"
+  command = "npm run build"
 
 [context.deploy-preview]
-  command = "npm run build && npm run test && npm run postbuild"
+  command = "npm run build && npm run test:deploy-preview"
+  publish = "build"
 
-[[plugins]]
-  package = "./netlify-plugin-cypress"
+[context.deploy-preview.environment]
+  CYPRESS_baseUrl = "${DEPLOY_PRIME_URL}"
+
+[context.deploy-preview.environment]
+  CYPRESS_baseUrl = "${DEPLOY_PRIME_URL}"
   
