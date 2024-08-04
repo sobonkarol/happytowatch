@@ -7,6 +7,7 @@
 
 [context.deploy-preview]
   command = "npm run build:dev && npm run test && npm run postbuild"
+  environment = { REACT_APP_API_URL = "REACT_APP_API_KEY=f444a77f642f0982dbc23fda35d86cf6" }
 
 [[plugins]]
   package = "./netlify-plugin-cypress"
