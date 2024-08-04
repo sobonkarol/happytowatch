@@ -6,9 +6,9 @@
   command = "npm run build"
 
 [context.deploy-preview]
-  command = "npm run build && npm run test:deploy-preview"
+  command = "npm run build && npm run test && npm run postbuild"
   publish = "build"
 
 [context.deploy-preview.environment]
-  CYPRESS_baseUrl = "${DEPLOY_PRIME_URL}"
+  CYPRESS_baseUrl = "$DEPLOY_PRIME_URL"
   

@@ -2,7 +2,7 @@
 
 describe('MoodFilm App Regression Test', () => {
   beforeEach(() => {
-    cy.visit('https://moodfilm.netlify.app/');
+    cy.visit(process.env.DEPLOY_PRIME_URL);
   });
 
   context('Mood Selection', () => {

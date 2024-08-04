@@ -25,7 +25,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "cypress run --reporter cypress-mochawesome-reporter",
-    "test:deploy-preview": "cross-env CYPRESS_baseUrl=$DEPLOY_PRIME_URL cypress run --reporter cypress-mochawesome-reporter",
     "postbuild": "cp -R cypress/reports build/reports",
     "eject": "react-scripts eject"
   },
