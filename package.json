@@ -25,9 +25,11 @@
     "start": "react-scripts start",
     "build:prod": "react-scripts build",
     "build:dev": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "cypress run --reporter cypress-mochawesome-reporter",
+    "postbuild": "cp -R cypress/reports build/reports",
     "eject": "react-scripts eject"
   },
+  
   "eslintConfig": {
     "extends": [
       "react-app",
