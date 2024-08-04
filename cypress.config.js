@@ -8,10 +8,10 @@ module.exports = defineConfig({
     },
     reporter: 'cypress-mochawesome-reporter',
     reporterOptions: {
-      reportDir: 'cypress/reports',
-      overwrite: true, // Allow overwriting reports for each run
-      html: true,      // Enable HTML report generation
-      json: true       // Enable JSON report generation
+      reportDir: 'cypress/reports', // Directory for storing reports
+      overwrite: true,              // Overwrite existing reports for each run
+      html: true,                   // Enable HTML report generation
+      json: false                   // Disable JSON report generation
     },
   },
 });
